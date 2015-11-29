@@ -36,6 +36,6 @@ public final class LoLApp extends Application {
         }
         // TODO: 11/28/2015 Change and save Regions and Strict Mode
         RiotAPI.setRegion(Region.NA);
-        RiotAPI.setAPIKey(Constants.RIOT_API);
+        RiotAPI.setAPIKey(getString(R.string.api_key));
     }
 }
