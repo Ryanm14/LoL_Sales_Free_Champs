@@ -1,14 +1,11 @@
 package me.ryanmiles.salesfreechampionsforlol;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.robrua.orianna.api.core.AsyncRiotAPI;
-import com.robrua.orianna.type.api.Action;
-import com.robrua.orianna.type.core.summoner.Summoner;
-import com.robrua.orianna.type.exception.APIException;
-
-import timber.log.Timber;
+import me.ryanmiles.salesfreechampionsforlol.fragments.ChampionRoation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,21 +13,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
-
-        AsyncRiotAPI.getSummonerByName(new Action<Summoner>() {
-            @Override
-            public void handle(APIException exception) {
-
-            }
-
-            @Override
-            public void perform(Summoner responseData) {
-                Timber.d(responseData.getRevisionDate() + "");
-            }
-        }, "OJjuiceman");
-
-
-
+        if (fragment == null) {
+            fragment = ChampionRoation.newInstance();
+            fm.beginTransaction()
+                    .add(R.id.fragment_container, fragment)
+                    .commit();
+        }
     }
+
 }
