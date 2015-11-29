@@ -80,3 +80,6 @@ Thumbs.db
 
 #Android Gears
 Gears/
+
+#Other
+Constants.java
