@@ -1,66 +1,61 @@
 package me.ryanmiles.salesfreechampionsforlol.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.TextView;
 
-import com.robrua.orianna.api.dto.BaseRiotAPI;
-import com.robrua.orianna.type.dto.champion.Champion;
+import com.robrua.orianna.type.dto.staticdata.Champion;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import me.ryanmiles.salesfreechampionsforlol.R;
+import me.ryanmiles.salesfreechampionsforlol.RiotApiHelper;
+import timber.log.Timber;
 
 
 public class ChampionRoation extends Fragment {
-    private ArrayList<com.robrua.orianna.type.dto.staticdata.Champion> mFreeChampionList = new ArrayList<>();
-    private GridView mGridView;
+
+    @Bind(R.id.fragment_champion_rotation_text_view)
+    TextView tv;
 
     public ChampionRoation() {
 
     }
 
     public static ChampionRoation newInstance() {
-        ChampionRoation fragment = new ChampionRoation();
-        Bundle args = new Bundle();
-        return fragment;
+        return new ChampionRoation();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Timber.d("Called getFreechampions()");
+        RiotApiHelper.getFreeChampions();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                List<Champion> mFreeChampions = BaseRiotAPI.getChampionStatuses(true).getChampions();
-                for (Champion mFreeChampion : mFreeChampions) {
-                    mFreeChampionList.add(BaseRiotAPI.getChampion(mFreeChampion.getId()));
-                }
-
-            }
-        };
-        thread.start();
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_champion_roation, container, false);
+        ButterKnife.bind(this, v);
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
+    public void updateChampions(ArrayList<Champion> champions) {
+        for (Champion champion : champions) {
+            tv.append(champion.getName() + "\n");
+        }
+        Timber.d("Updated TextView with free champions");
     }
-
 }
