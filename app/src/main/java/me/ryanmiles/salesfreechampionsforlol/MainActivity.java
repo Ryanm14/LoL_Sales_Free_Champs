@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import de.greenrobot.event.EventBus;
 import me.ryanmiles.salesfreechampionsforlol.events.FreeChampions;
 import me.ryanmiles.salesfreechampionsforlol.fragments.ChampionRoation;
-import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressWarnings("unused")
     public void onEventMainThread(FreeChampions freeChampions) {
-        Timber.i("Free Champions Event Recieved" + freeChampions.getChampions());
         ArrayList<Champion> test = (ArrayList<Champion>) freeChampions.getChampions();
         mChampionRoation.updateChampions(test);
     }

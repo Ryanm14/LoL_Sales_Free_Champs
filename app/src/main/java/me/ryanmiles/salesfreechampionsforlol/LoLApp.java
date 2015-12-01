@@ -5,6 +5,7 @@ import android.os.StrictMode;
 
 import com.robrua.orianna.api.core.RiotAPI;
 import com.robrua.orianna.type.core.common.Region;
+import com.squareup.picasso.Picasso;
 
 import timber.log.Timber;
 
@@ -12,6 +13,8 @@ import timber.log.Timber;
  * Created by Ryanm14 on 11/28/2015.
  */
 public final class LoLApp extends Application {
+
+    public static String LOLVERSION;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,7 +31,7 @@ public final class LoLApp extends Application {
                     .detectAll()
                     .penaltyLog()
                     .build());
-
+            Picasso.with(this).setLoggingEnabled(true);
             Timber.d("Strict mode and Timber initialized");
         } else {
             // TODO Crashlytics.start(this);
@@ -37,5 +40,7 @@ public final class LoLApp extends Application {
         // TODO: 11/28/2015 Change and save Regions and Strict Mode
         RiotAPI.setRegion(Region.NA);
         RiotAPI.setAPIKey(getString(R.string.api_key));
+        LOLVERSION = RiotAPI.getVersions().get(0);
+
     }
 }
